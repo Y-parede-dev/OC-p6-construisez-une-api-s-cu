@@ -1,9 +1,9 @@
 // recuperation du package http de node.js
-const http = require('http');
+const http = require('http'); // !!!!! ne pas oublier d'ajouter 's' apres avoir save les certificats + keys
 
 // recuperation des fichiers 
 const app = require('./app');
-
+// const options = require('./app')
 //creation du port Normalizer 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -43,7 +43,7 @@ const errorHandler = error => {
 };
 
 // creation du serveur
-const server = http.createServer( app);
+const server = http.createServer(/*options,*/ app);
 // si le serveur a une erreur sa nous la renvoie
 server.on('error', errorHandler);
 //csi tout est ok ok ecoute l'adresse et on y ajoute le port
