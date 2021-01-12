@@ -32,7 +32,7 @@ npm install node-sass@4.14.1 -g
 
   
 
-## Development server
+## Developement serveur
 
   
 
@@ -43,10 +43,11 @@ npm install node-sass@4.14.1 -g
 Pour avoir accès au serveur de développement :
 
   
+1. Placer vous sur le repertoire du projet
 
-1. Sur le terminal taper `cd .\back\` puis `npm start`
+2. Sur le terminal taper `cd .\back\` puis `npm start`
 
-2. Ouvrer un second terminal et taper `cd .\front\` puis `npm start`
+3. Ouvrer un second terminal et taper `cd .\front\` puis `npm start`
 
   
 
