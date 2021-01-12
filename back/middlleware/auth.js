@@ -1,4 +1,7 @@
+// IMPORT JWT pour la creation de token
 const jwt = require('jsonwebtoken');
+
+//creation de la fontion de la validation de token
 module.exports = (req, res, next)=>{
     try {
         const token = req.headers.authorization.split(' ')[1];
