@@ -30,7 +30,7 @@ La version actuelle de **node-sass** n'est pas prise en compte par le serveur fr
 
 ```shell
 
-		    	  npm uninstall node-sass -g
+npm uninstall node-sass -g
 
 ```
 
@@ -41,7 +41,7 @@ La version actuelle de **node-sass** n'est pas prise en compte par le serveur fr
 
 ```shell
 
-		    	npm install node-sass@4.14.1 -g
+npm install node-sass@4.14.1 -g
 
 ```
 
