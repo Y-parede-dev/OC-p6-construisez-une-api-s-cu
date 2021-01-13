@@ -80,7 +80,3 @@ Pour avoir accès au serveur de développement :
   
 
 Puis rendez-vous sur vôtre navigateur et allez à l'adresse `http://localhost:4200/`.
-
-  
-
-L'application va se recharger automatiquement si vous modifiez un fichier source.
