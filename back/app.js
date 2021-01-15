@@ -19,8 +19,10 @@ const userRoutes = require('./routes/user');
 mongoose.connect( "mongodb+srv://admin1:root@p6-construire-une-api-s.y3ru5.mongodb.net/data?retryWrites=true&w=majority",{ useNewUrlParser: true,
     useUnifiedTopology: true 
 })
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
+    .then(
+        () => console.log('Connexion à MongoDB réussie !'))
+    .catch(
+        () => console.log('Connexion à MongoDB échouée !'));
 
 // création de laplication express
 const app = express();

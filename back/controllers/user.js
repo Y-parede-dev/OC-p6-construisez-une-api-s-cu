@@ -20,11 +20,14 @@ exports.signup = (req, res, next)=>{
             });
             // puis on utilise la fonction save pour l'enregistrer dans la base de donee
             user.save()
-                .then(()=>res.status(201).json({message:'Utilisateur bien enregistré'}))
-                .catch(error=>res.status(400).json(error));
+                .then(
+                    ()=>res.status(201).json({message:'Utilisateur bien enregistré'}))
+                .catch(
+                    error=>res.status(400).json(error));
         })
         // si il y a une erreur retour status 500 erreur serveur
-        .catch(error=>res.status(500).json({error}));
+        .catch(
+            error=>res.status(500).json({error}));
 };
 // creation de la fonction login
 exports.login = (req, res, next)=>{
@@ -37,7 +40,8 @@ exports.login = (req, res, next)=>{
             }
             //bcrypt compare les Hash grace a ca fonction compare()
             bcrypt.compare(req.body.password, user.password)
-                .then(valid=>{
+                .then(
+                    valid=>{
                     if(!valid){
                         return res.status(401).json({message:'not good password'})
                     }
@@ -51,7 +55,9 @@ exports.login = (req, res, next)=>{
                         )
                     })
                 })
-                .catch(error=>res.status(500).json(error))
+                .catch(
+                    error=>res.status(500).json(error))
         })
-        .catch(error=>res.status(500).json(error))
+        .catch(
+            error=>res.status(500).json(error))
 };
