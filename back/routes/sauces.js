@@ -1,19 +1,23 @@
-//IMPORT express
 const express = require('express');
-//creation du rooter express
 const router = express.Router();
-//IMPORT des middlleware pour l'authentification et la config de multer 
+
+const stuffCtrl = require('../controllers/sauces');
 const auth = require('../middlleware/auth');
 const multer = require('../middlleware/multer-config');
-//IMPORT du controlleur sauces
-const SaucesCtrl = require('../controllers/sauces');
-// creation des différentes routes
-router.get('/', auth, SaucesCtrl.getAllSauces);
-router.post('/', auth,multer,SaucesCtrl.createSauces);
-router.post('/:id/like', auth, SaucesCtrl.likeOrNot);
-router.get('/:id', auth, SaucesCtrl.getOneSauce);
-router.put('/:id', auth, SaucesCtrl.modifySauce);
-router.delete('/:id', auth, SaucesCtrl.deleteSauce);
 
-//EXPORT du module de router
+
+// routes post
+router.post('/', auth, multer, stuffCtrl.createSauce);
+router.post('/:id/like', auth, stuffCtrl.likeOrNot);
+//route put
+router.put('/:id', auth, multer, stuffCtrl.modifySauce);
+
+//route delete
+router.delete('/:id', auth, stuffCtrl.deleteSauce);
+
+// routes get
+router.get('/:id', auth, stuffCtrl.getOneSauce);
+router.get('/', auth, stuffCtrl.getAllSauces);
+
+
 module.exports = router;
