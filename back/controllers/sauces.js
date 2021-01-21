@@ -15,22 +15,31 @@ exports.createSauce = (req, res, next) => { // fonction post
 
 exports.modifySauce = (req, res, next) => { //fonction put
   
+  
+  let isPresent = false; // voir si ok 
+
+console.log(req.file)
   const sauceObject = req.file? // utilisation d'une fonction  trainaire 
   {
     ...JSON.parse(req.body.sauce), // dans le cas ou on souhaite modifier l'image avec ou sans les infos
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  } : {...req.body};// dans le cas ou nous ne changeons pas l'images
+  } : {...req.body, isPresent:true};// dans le cas ou nous ne changeons pas l'images
 
   Sauces.findOne({ _id: req.params.id })  // on trouve la sauce grace a l'id
     .then(sauce => { // si elle est trouver 
       const filename = sauce.imageUrl.split('/images/')[1]; // creation de la const. qui recup le chemin de l'image
-      fs.unlink(`images/${filename}`, () => { // on délie limage (on la suppr. du fichier images)
-        Sauces.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-        .catch(error => res.status(400).json({ error }));
-
-      });
-    })
+        if(isPresent){
+          fs.unlink(`images/${filename}`, () => { // on délie limage (on la suppr. du fichier images)
+            Sauces.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+              .then(() => res.status(200).json({ message: 'Objet modifié !(image changer)'}))
+              .catch(error => res.status(400).json({ error }));
+          });
+        }else{
+          Sauces.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+              .then(() => res.status(200).json({ message: 'Objet modifié !(image non modifier)'}))
+              .catch(error => res.status(400).json({ error }));
+        }
+      })
     .catch(error => res.status(500).json({ error }));
   };
 
