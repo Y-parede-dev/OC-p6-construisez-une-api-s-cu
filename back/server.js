@@ -1,11 +1,9 @@
-// recuperation du package http de node.js
-const http = require('http'); // !!!!! ne pas oublier d'ajouter 's' apres avoir save les certificats + keys
+const http = require('http');  // recuperation du package http de node.js
+ 
+const app = require('./app');  // recuperation dU fichier app
 
-// recuperation des fichiers 
-const app = require('./app');
-// const options = require('./app')
-//creation du port Normalizer 
-const normalizePort = val => {
+const normalizePort = val => { //creation du port Normalizer 
+ 
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -18,11 +16,9 @@ const normalizePort = val => {
 };
 
 const port = normalizePort(process.env.PORT || '3000');
-// ajout du port sur app
-app.set('port', port);
+app.set('port', port);   // ajout du port sur app 
 
-// gestion des erreurs
-const errorHandler = error => {
+const errorHandler = error => {  // gestion des erreurs
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -42,16 +38,15 @@ const errorHandler = error => {
   }
 };
 
-// creation du serveur
-const server = http.createServer(/*options,*/ app);
-// si le serveur a une erreur sa nous la renvoie
-server.on('error', errorHandler);
-//csi tout est ok ok ecoute l'adresse et on y ajoute le port
-server.on('listening', () => {
+const server = http.createServer(app); // creation du serveur
+
+server.on('error', errorHandler);  // si le serveur a une erreur sa nous la renvoie
+
+server.on('listening', () => { //si tout est ok, ecoute l'adresse et on y ajoute le port
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
-  // on renvoie ecoute sur et le port a la console pour dire que tout c'est bien passer
-  console.log('Listening on ' + bind);
+  
+  console.log('Listening on ' + bind); // on renvoie ecoute sur et le port a la console pour dire que tout c'est bien passer
 });
 
 // on applique la fonction listen au server avec le port en argument

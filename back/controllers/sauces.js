@@ -1,30 +1,30 @@
-const Sauces = require('../models/Sauces');
-const fs = require('fs');
+const Sauces = require('../models/Sauces');// recuperation du model mongoose
+const fs = require('fs'); //importation file system
 
-exports.createSauce = (req, res, next) => {
-  const sauceObject = JSON.parse(req.body.sauce);
-  delete req.body._id;
-  const sauce = new Sauces({
-      ...sauceObject,
-      imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+exports.createSauce = (req, res, next) => { // fonction post 
+  const sauceObject = JSON.parse(req.body.sauce); // recupération de la req parser
+  delete req.body._id;  // supression de l id car mongo DB en crée un automatiquement
+  const sauce = new Sauces({ // creation de la nouvelle sauce
+      ...sauceObject, // recup. requete deja parser
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` // sert a enregistre l'image envoyer par l'utilisateur
   });
-  sauce.save()
-    .then(() => res.status(201).json({message: "Objet enregistré !"}))
+  sauce.save() // apel de la fonction save() pour enregistre dans la base 
+    .then(() => res.status(201).json({message: "Objet enregistré !"})) // retour de la promesse 
     .catch(error => res.status(400).json({error})); 
 };
 
-exports.modifySauce = (req, res, next) => {
+exports.modifySauce = (req, res, next) => { //fonction put
   
-  const sauceObject = req.file?
+  const sauceObject = req.file? // utilisation d'une fonction  trainaire 
   {
-    ...JSON.parse(req.body.sauce),
+    ...JSON.parse(req.body.sauce), // dans le cas ou on souhaite modifier l'image avec ou sans les infos
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-  } : {...req.body};
+  } : {...req.body};// dans le cas ou nous ne changeons pas l'images
 
-  Sauces.findOne({ _id: req.params.id })
-    .then(sauce => {
-      const filename = sauce.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
+  Sauces.findOne({ _id: req.params.id })  // on trouve la sauce grace a l'id
+    .then(sauce => { // si elle est trouver 
+      const filename = sauce.imageUrl.split('/images/')[1]; // creation de la const. qui recup le chemin de l'image
+      fs.unlink(`images/${filename}`, () => { // on délie limage (on la suppr. du fichier images)
         Sauces.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Objet modifié !'}))
         .catch(error => res.status(400).json({ error }));
@@ -34,7 +34,7 @@ exports.modifySauce = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
   };
 
-exports.deleteSauce = (req, res, next) => {
+exports.deleteSauce = (req, res, next) => { // fonction delete
   Sauces.findOne({ _id: req.params.id })
     .then(sauce => {
       const filename = sauce.imageUrl.split('/images/')[1];
@@ -47,23 +47,23 @@ exports.deleteSauce = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
   };
 
-exports.getAllSauces = (req, res, next) => { 
+exports.getAllSauces = (req, res, next) => { // fonction get
   Sauces.find()
       .then(sauces=>res.status(200).json(sauces))
       .catch(error=>res.status(400).json({error}));
 };
 
-exports.getOneSauce = (req, res, next) => { 
+exports.getOneSauce = (req, res, next) => { // fonction get
   Sauces.findOne( {_id: req.params.id} )
       .then(sauce=>res.status(200).json(sauce))
       .catch(error=>res.status(400).json({error}));
 };
 
-exports.likeOrNot = (req, res, next) => {
-  const userId = req.body.userId;
-  const like = req.body.like;
+exports.likeOrNot = (req, res, next) => { // fonction post (likes dislikes)
+  const userId = req.body.userId; // recup. user id de la requete
+  const like = req.body.like; // recup. la partie like de la requete ex like:1 = 👍  et like:-1 = 👎
 
-    if(like == 1){
+    if(like == 1){ // 👍
       Sauces.updateOne(
         {_id:req.params.id},
         {
@@ -72,7 +72,7 @@ exports.likeOrNot = (req, res, next) => {
         })
         .then(()=>res.status(200).json({message:"like enregistre"}))
         .catch(error=>res.status(400).json(error))
-    }else if (like==-1){
+    }else if (like==-1){ // 👎
       Sauces.updateOne(
         {_id:req.params.id},
         {
@@ -82,11 +82,11 @@ exports.likeOrNot = (req, res, next) => {
       )
         .then(()=>res.status(200).json({message:"dislike enregistre"}))
         .catch(error=>res.status(400).json(error))
-    }else if(like==0){
+    }else if(like==0){ // no likes ni dislikes
       Sauces.findOne({_id:req.params.id})
         .then(
           sauces=> {
-            if(sauces.usersDisliked.find(userId => userId === req.body.userId)){
+            if(sauces.usersDisliked.find(userId => userId === req.body.userId)){ // supression du dislike
               Sauces.updateOne(
                 {_id:req.params.id},
                 {
@@ -96,7 +96,7 @@ exports.likeOrNot = (req, res, next) => {
               )
                 .then(()=>res.status(200).json({message:"dislike Supprimé"}))
                 .catch(error=>res.status(400).json(error))
-            }else if(sauces.usersLiked.find(userId => userId === req.body.userId)){
+            }else if(sauces.usersLiked.find(userId => userId === req.body.userId)){ // supression du like
               Sauces.updateOne(
                 {_id:req.params.id},
                 {

@@ -28,12 +28,6 @@ mongoose.connect( "mongodb+srv://admin1:root@p6-construire-une-api-s.y3ru5.mongo
 // création de laplication express
 const app = express();
 
-/* On récupère notre clé privée et notre certificat (ici ils se trouvent dans le dossier certificate) 
-const key = fs.readFileSync(path.join(__dirname, 'certificate', 'server.key'));
-const cert = fs.readFileSync(path.join(__dirname, 'certificate', 'server.cert'));
-const options = { key, cert };
-*/
-
 // callback parametrage du header de la requete 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -50,4 +44,3 @@ app.use("/api/auth", userRoutes);
 
 //exportation de l'application express
 module.exports = app;
-//module.exports= options;
