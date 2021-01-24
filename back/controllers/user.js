@@ -6,13 +6,29 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
+function isValidEmail(value){
+    let reGex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return reGex.test(value);
+};
+
+function isValidPassword(value){
+    let reGex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
+    return reGex.test(value)
+}
+
 // creation de la fonction sigup
 exports.signup = (req, res, next)=>{
+    if(    isValidEmail(req.body.email)
+        && isValidPassword(req.body.password)
+        ){
     // on cree le hash qui va faire 10 tours
-    bcrypt.hash(req.body.password, 10)
+
+        bcrypt.hash(req.body.password, 10)
         //si tout est OK on cree un nouveau user
+        
         .then(hash => {
             const corpRequete = req.body;
+            
             const user = new User({
                 email: corpRequete.email,
                 //avec le pasword hasher
@@ -29,6 +45,8 @@ exports.signup = (req, res, next)=>{
         .catch(
             error=>res.status(500).json({error}));
 };
+    }
+    
 // creation de la fonction login
 exports.login = (req, res, next)=>{
     //utilisation de la fonction findOne() pour trouver l'utilisateur dans BDD
