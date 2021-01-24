@@ -27,17 +27,17 @@ Un mot de passe valide aura
 
 Pour commencé je vous invite a cloné le repository [gitHub](https://github.com/Y-parede-dev/OC-p6-construisez-une-api-s-cu.git) :
 
--  1. Ouvrez :
+**1.** Ouvrez :
 
 >  - **A**. soit vôtre **CMD** en mode administrateur
 
 > -  **B**. Soit un **IDE** performent (ex:**Visual studio code**)
 
--  2. Placez vous dans le repertoire ou vous voulez enregistré le projet
+**2.** Placez vous dans le repertoire ou vous voulez enregistré le projet
 
--  3. Tapez `git init` pour initialiser git
+**3.** Tapez `git init` pour initialiser git
 
--  4. Tapez `git clone https://github.com/Y-parede-dev/OC-p6-construisez-une-api-s-cu.git` pour télécharger le projet sur vôtre machine
+**4.** Tapez `git clone https://github.com/Y-parede-dev/OC-p6-construisez-une-api-s-cu.git` pour télécharger le projet sur vôtre machine
 
   
   
