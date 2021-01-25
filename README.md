@@ -155,7 +155,7 @@ Pour avoir accès au serveur de développement :
 
   
 
-Puis rendez-ààvous sur vôtre navigateur et allez à l'adresse `http://localhost:4200/`.
+Puis rendez-vous sur vôtre navigateur et allez à l'adresse `http://localhost:4200/`.
 
   
 
