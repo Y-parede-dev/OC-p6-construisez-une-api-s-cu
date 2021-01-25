@@ -5,12 +5,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-
+// reGex email
 function isValidEmail(value){
     let reGex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     return reGex.test(value);
 };
-
+// reGex password (entre 8-15 caract. / au moins 1 chifre 1maj. une min et au moins un carct. spé.)
 function isValidPassword(value){
     let reGex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,15})$/;
     return reGex.test(value)
@@ -18,10 +18,7 @@ function isValidPassword(value){
 
 // creation de la fonction sigup
 exports.signup = (req, res, next)=>{
-    if(    isValidEmail(req.body.email)
-        && isValidPassword(req.body.password)
-        ){
-    // on cree le hash qui va faire 10 tours
+    // on cree le hash qui va faire 10 tours 
 
         bcrypt.hash(req.body.password, 10)
         //si tout est OK on cree un nouveau user
@@ -35,17 +32,28 @@ exports.signup = (req, res, next)=>{
                 password: hash
             });
             // puis on utilise la fonction save pour l'enregistrer dans la base de donee
-            user.save()
+            if(    isValidEmail(req.body.email)
+                && isValidPassword(req.body.password)){
+                user.save()
                 .then(
                     ()=>res.status(201).json({message:'Utilisateur bien enregistré'}))
                 .catch(
                     error=>res.status(400).json(error));
+            }else {
+                user.watch({_id:user._id})
+                    .then(
+                        ()=>res.status(200).json({ùessage:'Utilisateur non enregistre mot de passe trop faible ou mauvaise adresse email'})
+                    )
+                    .catch(
+                        error => res.status(400).json(error)
+                    )
+            }   
         })
         // si il y a une erreur retour status 500 erreur serveur
         .catch(
-            error=>res.status(500).json({error}));
+            error=>res.status(500).json(error));
+
 };
-    }
     
 // creation de la fonction login
 exports.login = (req, res, next)=>{
@@ -69,7 +77,7 @@ exports.login = (req, res, next)=>{
                         token:jwt.sign(
                             { userId: user._id },
                             'RANDOM_TOKEN_SECRET',
-                            {expiresIn:'24h'}
+                            {expiresIn:'1h'}
                         )
                     })
                 })
