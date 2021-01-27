@@ -20,9 +20,9 @@ function isValidPassword(value){
 exports.signup = (req, res, next)=>{
     // on cree le hash qui va faire 10 tours 
 
-        bcrypt.hash(req.body.password, 10)
-        //si tout est OK on cree un nouveau user
-        
+    bcrypt.hash(req.body.password, 10)
+    //si tout est OK on cree un nouveau user
+    
         .then(hash => {
             const corpRequete = req.body;
             
@@ -31,27 +31,27 @@ exports.signup = (req, res, next)=>{
                 //avec le pasword hasher
                 password: hash
             });
-            // puis on utilise la fonction save pour l'enregistrer dans la base de donee
-            if(    isValidEmail(req.body.email)
-                && isValidPassword(req.body.password)){
-                user.save()
+        // puis on utilise la fonction save pour l'enregistrer dans la base de donee
+        if(    isValidEmail(req.body.email)
+            && isValidPassword(req.body.password)){
+            user.save()
                 .then(
                     ()=>res.status(201).json({message:'Utilisateur bien enregistré'}))
                 .catch(
                     error=>res.status(400).json(error));
-            }else {
-                user.watch({_id:user._id})
-                    .then(
-                        ()=>res.status(200).json({ùessage:'Utilisateur non enregistre mot de passe trop faible ou mauvaise adresse email'})
-                    )
-                    .catch(
-                        error => res.status(400).json(error)
-                    )
-            }   
-        })
-        // si il y a une erreur retour status 500 erreur serveur
-        .catch(
-            error=>res.status(500).json(error));
+        }else {
+            user.watch({_id:user._id})
+                .then(
+                    ()=>res.status(200).json({message:'Utilisateur non enregistre mot de passe trop faible ou mauvaise adresse email'})
+                )
+                .catch(
+                    error => res.status(400).json(error)
+                )
+        }   
+    })
+    // si il y a une erreur retour status 500 erreur serveur
+    .catch(
+        error=>res.status(500).json(error));
 
 };
     
