@@ -21,7 +21,6 @@ Un mot de passe valide aura
 
 - au moins un de ces caractères spéciaux: $ @ % * + - _ !
 
-- aucun autre caractère possible: pas de & ni de { par exemple)
 
   
 
@@ -155,10 +154,10 @@ Pour avoir accès au serveur de développement :
 
   
 
-Puis rendez-vous sur vôtre navigateur et allez à l'adresse `http://localhost:4200/`.
+Puis rendez-**vous** sur vôtre navigateur et allez à l'adresse `http://localhost:4200/`
 
   
 
   
 
-L'application va se recharger automatiquement si vous modifiez un fichier source.
+L'application va se recharger automatiquement si vous modifiez un fichier source

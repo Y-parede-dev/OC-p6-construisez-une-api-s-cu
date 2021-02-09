@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+require('dotenv').config();
+
 // reGex email
 function isValidEmail(value){
     let reGex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -76,8 +78,8 @@ exports.login = (req, res, next)=>{
                         userId : user.id,
                         token:jwt.sign(
                             { userId: user._id },
-                            'RANDOM_TOKEN_SECRET',
-                            {expiresIn:'1h'}
+                            `${process.env.TOKEN_SECRET}`,
+                            {expiresIn:`${process.env.TOKEN_EXPIRE}`}
                         )
                     })
                 })

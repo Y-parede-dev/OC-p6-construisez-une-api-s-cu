@@ -8,16 +8,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // path sert comme son nom l'indique a crée des chemin
 const path = require('path');
-
+require('dotenv').config();
 //const fs = require('fs');
-
 
 // importation des routes 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
 // conection a la base de donnée mongoDb grace a mongoose
-mongoose.connect( "mongodb+srv://admin1:root@p6-construire-une-api-s.y3ru5.mongodb.net/data?retryWrites=true&w=majority",{ useNewUrlParser: true,
+mongoose.connect( `mongodb+srv://${process.env.MONGODB_ADMIN}:${process.env.MONGODB_PASSWORD}@p6-construire-une-api-s.y3ru5.mongodb.net/data?retryWrites=true&w=majority`,{ useNewUrlParser: true,
     useUnifiedTopology: true 
 })
     .then(
